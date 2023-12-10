@@ -229,7 +229,9 @@ open class HorizontalBarChartRenderer: BarChartRenderer
                 
                 context.setFillColor(dataSet.barShadowColor.cgColor)
                 // to round the edges for each bar's shadow
-                setRoundedCorners(context: context, barRect: _barShadowRectBuffer, dataSet: dataSet as! BarChartDataSet)
+                if let barChartDataSet = dataSet as? BarChartDataSet, barChartDataSet.cornerRadius > 0 {
+                    setRoundedCorners(context: context, barRect: _barShadowRectBuffer, dataSet: barChartDataSet)
+                }
             }
         }
         
@@ -267,7 +269,10 @@ open class HorizontalBarChartRenderer: BarChartRenderer
             }
 
             // to round the edges for each bar
-            setRoundedCorners(context: context, barRect: barRect, dataSet: dataSet as! BarChartDataSet)
+            if let barChartDataSet = dataSet as? BarChartDataSet, barChartDataSet.cornerRadius > 0 {
+                setRoundedCorners(context: context, barRect: barRect, dataSet: barChartDataSet)
+            }
+
 
             if drawBorder
             {

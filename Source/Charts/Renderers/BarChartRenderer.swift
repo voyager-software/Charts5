@@ -379,8 +379,10 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
                 context.setFillColor(dataSet.color(atIndex: j).cgColor)
             }
             
-            setRoundedCorners(context: context, barRect: barRect, dataSet: dataSet as! BarChartDataSet)
-            
+            if let barChartDataSet = dataSet as? BarChartDataSet, barChartDataSet.cornerRadius > 0 {
+                setRoundedCorners(context: context, barRect: barRect, dataSet: barChartDataSet)
+            }
+
             if drawBorder
             {
                 context.setStrokeColor(borderColor.cgColor)
@@ -407,9 +409,9 @@ open class BarChartRenderer: BarLineScatterCandleBubbleRenderer
     }
     
     func setRoundedCorners(context: CGContext, barRect: CGRect, dataSet: BarChartDataSet) {
-        let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: barRect.width * dataSet.cornerRadius)
-                        context.addPath(bezierPath.cgPath)
-                        context.drawPath(using: .fill)
+        let bezierPath = UIBezierPath(roundedRect: barRect, cornerRadius: dataSet.cornerRadius)
+        context.addPath(bezierPath.cgPath)
+        context.drawPath(using: .fill)
     }
     
     open func prepareBarHighlight(
